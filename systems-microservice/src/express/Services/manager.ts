@@ -3,19 +3,20 @@ import { ISystem, ISystemDocument } from './interface.js';
 import { SystemModel } from './model.js';
 
 export class SystemsManager {
-    static getAllQuery = async (): Promise<ISystemDocument[]> => {
-        return await getAllSystems();
+    static getAllQuery = async (filter: Partial<ISystem> = {}): Promise<ISystemDocument[]> => {
+        return await SystemModel.find(filter).lean().exec();
     };
 
     static getOneById = async (SystemId: string): Promise<ISystemDocument> => {
         return await SystemModel.findById(SystemId).orFail(new DocumentNotFoundError(SystemId)).lean().exec();
     };
-    static getSystemsCount = async (System: Partial<ISystem>): Promise<number> => {
-        return SystemModel.countDocuments(System).lean().exec();
+
+    static getSystemsCount = async (filter: Partial<ISystem>): Promise<number> => {
+        return SystemModel.countDocuments(filter).lean().exec();
     };
 
     static createOne = async (System: ISystem): Promise<ISystemDocument> => {
-        return await (await SystemModel.create(System)).save();
+        return await SystemModel.create(System);
     };
 
     static updateOne = async (SystemId: string, System: Partial<ISystem>): Promise<ISystemDocument> => {
@@ -26,7 +27,3 @@ export class SystemsManager {
         return await SystemModel.findByIdAndDelete(SystemId).orFail(new DocumentNotFoundError(SystemId)).lean().exec();
     };
 }
-
-const getAllSystems = async () => {
-    return await SystemModel.find().lean().exec();
-};

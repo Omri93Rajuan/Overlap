@@ -13,24 +13,27 @@ import { Response } from 'express';
 
 export class SystemsController {
     static getAll = async (_req: TypedRequest<typeof getAllQueryRequestSchema>, res: Response) => {
-        res.json(await SystemsManager.getAllQuery());
+        res.status(200).json(await SystemsManager.getAllQuery());
     };
+
     static getOne = async (req: TypedRequest<typeof getOneRequestSchema>, res: Response) => {
-        res.status(202).json(await SystemsManager.getOneById(req.params.id));
+        res.status(200).json(await SystemsManager.getOneById(req.params.id));
     };
+
     static getCount = async (req: TypedRequest<typeof getCountRequestSchema>, res: Response) => {
-        res.json(await SystemsManager.getSystemsCount(req.query));
+        res.status(200).json(await SystemsManager.getSystemsCount(req.query));
     };
 
     static createOne = async (req: TypedRequest<typeof createOneRequestSchema>, res: Response) => {
-        res.status(202).json(await SystemsManager.createOne(req.body));
+        res.status(201).json(await SystemsManager.createOne(req.body));
     };
 
     static updateOne = async (req: TypedRequest<typeof updateOneRequestSchema>, res: Response) => {
-        res.status(202).json(await SystemsManager.updateOne(req.params.id, req.body));
+        res.status(200).json(await SystemsManager.updateOne(req.params.id, req.body));
     };
 
     static deleteOne = async (req: TypedRequest<typeof deleteOneRequestSchema>, res: Response) => {
-        res.status(202).json(await SystemsManager.deleteOne(req.params.id));
+        await SystemsManager.deleteOne(req.params.id);
+        res.sendStatus(204);
     };
 }

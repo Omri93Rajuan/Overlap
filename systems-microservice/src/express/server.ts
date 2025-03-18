@@ -26,7 +26,7 @@ export class Server {
 
         app.use(
             cors({
-                origin: [/^http:\/\/localhost(:\d+)?$/], // Regex to allow any localhost port
+                origin: [/^http:\/\/localhost(:\d+)?$/],
                 credentials: true,
             }),
         );
