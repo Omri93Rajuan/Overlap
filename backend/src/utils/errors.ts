@@ -10,3 +10,9 @@ export class DocumentNotFoundError extends ServiceError {
         super(404, `No feature found with id ${id}`);
     }
 }
+export class InvalidSystemError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = 'InvalidSystemError';
+    }
+}
